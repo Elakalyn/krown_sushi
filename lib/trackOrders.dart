@@ -1,18 +1,13 @@
-// ignore_for_file: unused_import
-
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:krown_sushi/components.dart';
 import 'package:speed_up_flutter/speed_up_flutter.dart';
 
-class HomeScreen extends StatelessWidget {
-  HomeScreen({super.key});
+class TrackOrders extends StatelessWidget {
+  TrackOrders({super.key});
   final GlobalKey<ScaffoldState> _key = GlobalKey();
   @override
   Widget build(BuildContext context) {
-    var itemCount = 7;
-
     return Scaffold(
       key: _key,
       drawer: NavigationDrawer(
@@ -98,50 +93,34 @@ class HomeScreen extends StatelessWidget {
             ),
             SliverFillRemaining(
               child: SingleChildScrollView(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                  child: Column(
+                  child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 20.0),
+                child: Column(children: [
+                  40.h,
+                    Row(
                     children: [
-                      40.h,
-                      const Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          'Current Order',
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 24,
-                            fontWeight: FontWeight.w400,
-                          ),
+                      Text(
+                        "Track your \n  Orders",
+                        style: TextStyle(
+                          fontSize: 35,
                         ),
                       ),
-                      20.h,
-                      dishProgressCard(),
-                      40.h,
-                      const Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          'Try something new?',
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 24,
-                            fontWeight: FontWeight.w400,
-                          ),
+                      Spacer(),
+                      Text(
+                        "3",
+                        style: TextStyle(
+                          fontSize: 35,
                         ),
                       ),
-                      20.h,
-                      SizedBox(
-                        height: (itemCount * 135) + (itemCount * 20) + 40,
-                        child: ListView.separated(
-                          itemBuilder: (context, index) => suggestionDishCard(),
-                          separatorBuilder: (context, index) => 20.h,
-                          itemCount: itemCount,
-                          physics: NeverScrollableScrollPhysics(),
-                        ),
-                      ),
+                      20.w,
                     ],
                   ),
-                ),
-              ),
+                  20.h,
+                  dishProgressCard(),20.h,
+                  dishProgressCard(),20.h,
+                  dishProgressCard(),
+                ]),
+              )),
             ),
           ],
         ),
@@ -149,9 +128,3 @@ class HomeScreen extends StatelessWidget {
     );
   }
 }
-
-List<Widget> suggestedItems = [
-  suggestionDishCard(),
-  suggestionDishCard(),
-  suggestionDishCard(),
-];
