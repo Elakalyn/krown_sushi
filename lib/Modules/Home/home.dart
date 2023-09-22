@@ -3,7 +3,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
-import 'package:krown_sushi/components.dart';
+import 'package:krown_sushi/Shared/Components/components.dart';
 import 'package:speed_up_flutter/speed_up_flutter.dart';
 
 class HomeScreen extends StatelessWidget {

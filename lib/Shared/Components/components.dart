@@ -2,6 +2,95 @@ import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:speed_up_flutter/speed_up_flutter.dart';
 
+class dishCard extends StatelessWidget {
+  const dishCard({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 183.6,
+      width: 153,
+      decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(15),
+          boxShadow: const [
+            BoxShadow(
+              color: Color(0x238B8B8B),
+              blurRadius: 20,
+              offset: Offset(0, 4),
+              spreadRadius: 6,
+            )
+          ]),
+      child: Padding(
+        padding: const EdgeInsets.all(10.0),
+        child: Stack(
+          children: [
+            Column(
+              children: [
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(15.0),
+                  child: Image.network(
+                    'https://firebasestorage.googleapis.com/v0/b/krown-sushi.appspot.com/o/dish_Images%2Fsalmon_sushi.jpg?alt=media&token=55672d35-c838-4e89-ad2a-adbee36e8197',
+                    width: 131.53,
+                    height: 107.37,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+                10.h,
+                const Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    'Food Name',
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 17,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                ),
+                const Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    '\$ 2.00',
+                    style: TextStyle(
+                      color: Color(0xFF106FDF),
+                      fontSize: 15,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            Align(
+              alignment: Alignment.bottomRight,
+              child: Stack(
+                alignment: Alignment.center,
+                children: [
+                  Container(
+                    width: 16,
+                    height: 16,
+                    decoration: ShapeDecoration(
+                      color: HexColor('6750A4'),
+                      shape: OvalBorder(),
+                    ),
+                  ),
+                  Icon(
+                    Icons.add,
+                    size: 12,
+                    color: Colors.white,
+                  ),
+                ],
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+}
+
 class dishProgressCard extends StatelessWidget {
   const dishProgressCard({
     super.key,
@@ -215,7 +304,6 @@ const List<ExampleDestination> destinations = <ExampleDestination>[
   ExampleDestination('Order History', Icon(Icons.history), Icon(Icons.history)),
 ];
 
-
 class table extends StatelessWidget {
   const table({
     super.key,
@@ -228,13 +316,14 @@ class table extends StatelessWidget {
       height: 109,
       child: Column(
         children: [
-          Image.network('https://media.discordapp.net/attachments/673875945198714920/1154418629610328074/occupiedDoublesTable.png')
-          ,Text('A6', style: TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.w500,
-            color: Colors.white,
-          ))
-    
+          Image.network(
+              'https://media.discordapp.net/attachments/673875945198714920/1154418629610328074/occupiedDoublesTable.png'),
+          Text('A6',
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.w500,
+                color: Colors.white,
+              ))
         ],
       ),
     );
