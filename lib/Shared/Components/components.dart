@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:krown_sushi/Modules/Dish_Details/dishDetails.dart';
+import 'package:krown_sushi/Modules/Host/host.dart';
+import 'package:krown_sushi/Modules/Menu/menu.dart';
 import 'package:speed_up_flutter/speed_up_flutter.dart';
 
 class dishCard extends StatelessWidget {
@@ -9,82 +12,90 @@ class dishCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 183.6,
-      width: 153,
-      decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(15),
-          boxShadow: const [
-            BoxShadow(
-              color: Color(0x238B8B8B),
-              blurRadius: 20,
-              offset: Offset(0, 4),
-              spreadRadius: 6,
-            )
-          ]),
-      child: Padding(
-        padding: const EdgeInsets.all(10.0),
-        child: Stack(
-          children: [
-            Column(
-              children: [
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(15.0),
-                  child: Image.network(
-                    'https://firebasestorage.googleapis.com/v0/b/krown-sushi.appspot.com/o/dish_Images%2Fsalmon_sushi.jpg?alt=media&token=55672d35-c838-4e89-ad2a-adbee36e8197',
-                    width: 131.53,
-                    height: 107.37,
-                    fit: BoxFit.cover,
-                  ),
-                ),
-                10.h,
-                const Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    'Food Name',
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 17,
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ),
-                ),
-                const Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    '\$ 2.00',
-                    style: TextStyle(
-                      color: Color(0xFF106FDF),
-                      fontSize: 15,
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            Align(
-              alignment: Alignment.bottomRight,
-              child: Stack(
-                alignment: Alignment.center,
+    return InkWell(
+      onTap: (){
+       Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => DishDetails()),
+            );
+      },
+      child: Container(
+        height: 183.6,
+        width: 153,
+        decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(15),
+            boxShadow: const [
+              BoxShadow(
+                color: Color(0x238B8B8B),
+                blurRadius: 20,
+                offset: Offset(0, 4),
+                spreadRadius: 6,
+              )
+            ]),
+        child: Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: Stack(
+            children: [
+              Column(
                 children: [
-                  Container(
-                    width: 16,
-                    height: 16,
-                    decoration: ShapeDecoration(
-                      color: HexColor('6750A4'),
-                      shape: OvalBorder(),
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(15.0),
+                    child: Image.network(
+                      'https://firebasestorage.googleapis.com/v0/b/krown-sushi.appspot.com/o/dish_Images%2Fsalmon_sushi.jpg?alt=media&token=55672d35-c838-4e89-ad2a-adbee36e8197',
+                      width: 131.53,
+                      height: 107.37,
+                      fit: BoxFit.cover,
                     ),
                   ),
-                  Icon(
-                    Icons.add,
-                    size: 12,
-                    color: Colors.white,
+                  10.h,
+                  const Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      'Food Name',
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 17,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                  ),
+                  const Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      '\$ 2.00',
+                      style: TextStyle(
+                        color: Color(0xFF106FDF),
+                        fontSize: 15,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
                   ),
                 ],
               ),
-            )
-          ],
+              Align(
+                alignment: Alignment.bottomRight,
+                child: Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    Container(
+                      width: 16,
+                      height: 16,
+                      decoration: ShapeDecoration(
+                        color: HexColor('6750A4'),
+                        shape: OvalBorder(),
+                      ),
+                    ),
+                    Icon(
+                      Icons.add,
+                      size: 12,
+                      color: Colors.white,
+                    ),
+                  ],
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );
@@ -200,87 +211,95 @@ class suggestionDishCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: 320,
-      height: 135,
-      decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(15),
-          boxShadow: const [
-            BoxShadow(
-              color: Color(0x238B8B8B),
-              blurRadius: 20,
-              offset: Offset(0, 4),
-              spreadRadius: 6,
-            )
-          ]),
-      child: Row(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(15.0),
-              child: Image.network(
-                'https://firebasestorage.googleapis.com/v0/b/krown-sushi.appspot.com/o/dish_Images%2Fsalmon_sushi.jpg?alt=media&token=55672d35-c838-4e89-ad2a-adbee36e8197',
-                width: 160,
-                height: 115,
-                fit: BoxFit.fitHeight,
+    return InkWell(
+      onTap: (){
+       Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => DishDetails()),
+            );
+      },
+      child: Container(
+        width: 320,
+        height: 135,
+        decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(15),
+            boxShadow: const [
+              BoxShadow(
+                color: Color(0x238B8B8B),
+                blurRadius: 20,
+                offset: Offset(0, 4),
+                spreadRadius: 6,
+              )
+            ]),
+        child: Row(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(15.0),
+                child: Image.network(
+                  'https://firebasestorage.googleapis.com/v0/b/krown-sushi.appspot.com/o/dish_Images%2Fsalmon_sushi.jpg?alt=media&token=55672d35-c838-4e89-ad2a-adbee36e8197',
+                  width: 160,
+                  height: 115,
+                  fit: BoxFit.fitHeight,
+                ),
               ),
             ),
-          ),
-          Expanded(
-            child: Padding(
-              padding: EdgeInsets.all(10.0),
-              child: Column(
-                children: [
-                  Text(
-                    'Food Name',
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 21,
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ),
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      '\$ 2.00',
+            Expanded(
+              child: Padding(
+                padding: EdgeInsets.all(10.0),
+                child: Column(
+                  children: [
+                    Text(
+                      'Food Name',
                       style: TextStyle(
-                        color: Color(0xFF106FDF),
-                        fontSize: 19,
+                        color: Colors.black,
+                        fontSize: 21,
                         fontWeight: FontWeight.w700,
                       ),
                     ),
-                  ),
-                  Spacer(),
-                  Align(
-                    alignment: Alignment.bottomRight,
-                    child: Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: Stack(
-                        alignment: Alignment.center,
-                        children: [
-                          Container(
-                            width: 20,
-                            height: 20,
-                            decoration: ShapeDecoration(
-                              color: HexColor('6750A4'),
-                              shape: OvalBorder(),
-                            ),
-                          ),
-                          Icon(
-                            Icons.add,
-                            color: Colors.white,
-                          ),
-                        ],
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        '\$ 2.00',
+                        style: TextStyle(
+                          color: Color(0xFF106FDF),
+                          fontSize: 19,
+                          fontWeight: FontWeight.w700,
+                        ),
                       ),
                     ),
-                  )
-                ],
+                    Spacer(),
+                    Align(
+                      alignment: Alignment.bottomRight,
+                      child: Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: Stack(
+                          alignment: Alignment.center,
+                          children: [
+                            Container(
+                              width: 20,
+                              height: 20,
+                              decoration: ShapeDecoration(
+                                color: HexColor('6750A4'),
+                                shape: OvalBorder(),
+                              ),
+                            ),
+                            Icon(
+                              Icons.add,
+                              color: Colors.white,
+                            ),
+                          ],
+                        ),
+                      ),
+                    )
+                  ],
+                ),
               ),
-            ),
-          )
-        ],
+            )
+          ],
+        ),
       ),
     );
   }
@@ -298,7 +317,7 @@ const List<ExampleDestination> destinations = <ExampleDestination>[
   ExampleDestination('Home', Icon(Icons.home), Icon(Icons.home)),
   ExampleDestination('Menu', Icon(Icons.menu_book), Icon(Icons.menu_book)),
   ExampleDestination(
-      'Reserve a Tabble', Icon(Icons.table_bar), Icon(Icons.table_bar)),
+      'Reserve a Table', Icon(Icons.table_bar), Icon(Icons.table_bar)),
   ExampleDestination(
       'Track your Orders', Icon(Icons.location_on), Icon(Icons.location_on)),
   ExampleDestination('Order History', Icon(Icons.history), Icon(Icons.history)),
@@ -329,3 +348,4 @@ class table extends StatelessWidget {
     );
   }
 }
+

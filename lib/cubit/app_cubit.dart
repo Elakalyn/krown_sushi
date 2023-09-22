@@ -1,0 +1,76 @@
+import 'package:bloc/bloc.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:krown_sushi/Modules/Home/home.dart';
+import 'package:krown_sushi/Modules/Menu/menu.dart';
+import 'package:krown_sushi/Modules/Order_History/orderHistory.dart';
+import 'package:krown_sushi/Modules/Track_Orders/trackOrders.dart';
+import 'package:meta/meta.dart';
+import 'package:speed_up_flutter/speed_up_flutter.dart';
+
+import '../Modules/Table_Reservation/tableReservation.dart';
+import '../Shared/Components/components.dart';
+
+part 'app_state.dart';
+
+class AppCubit extends Cubit<AppState> {
+  AppCubit() : super(AppInitial());
+
+  static AppCubit get(context) => BlocProvider.of(context);
+  var screenIndex = 0;
+  void handleScreenChanged(int selected) {
+    screenIndex = selected;
+    emit(ScreenChanged());
+  }
+
+  List<Widget> Screens = [
+    HomeScreen(),
+    MenuScreen(),
+    TableReservation(),
+    TrackOrders(),
+    OrderHistory(),
+  ];
+
+  void completeOrder(context,index) {
+    screenIndex = index;
+    emit(ScreenChanged());
+    Navigator.pop(context);
+    Navigator.pop(context);
+    Navigator.pop(context);
+    Navigator.pop(context);
+  }
+
+  Widget navigator() => NavigationDrawer(
+        onDestinationSelected: (index) => handleScreenChanged(index),
+        selectedIndex: screenIndex,
+        children: <Widget>[
+          const Padding(
+            padding: EdgeInsets.fromLTRB(28, 16, 16, 10),
+            child: Text(
+              'Krown Sushi',
+            ),
+          ),
+          36.h,
+          const Padding(
+            padding: EdgeInsets.fromLTRB(28, 16, 16, 10),
+            child: Text(
+              'Main Screens',
+            ),
+          ),
+          18.h,
+          ...destinations.map(
+            (ExampleDestination destination) {
+              return NavigationDrawerDestination(
+                label: Text(destination.label),
+                icon: destination.icon,
+                selectedIcon: destination.selectedIcon,
+              );
+            },
+          ),
+          const Padding(
+            padding: EdgeInsets.fromLTRB(28, 16, 28, 10),
+            child: Divider(),
+          ),
+        ],
+      );
+}

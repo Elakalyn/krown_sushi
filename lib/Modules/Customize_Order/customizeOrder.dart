@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:krown_sushi/Modules/Order_Finalization/orderFinalization.dart';
 import 'package:krown_sushi/Shared/Components/components.dart';
 import 'package:speed_up_flutter/speed_up_flutter.dart';
 
@@ -235,8 +236,14 @@ class CustomizeOrder extends StatelessWidget {
                       height: 48,
                       width: double.maxFinite,
                       child: FilledButton(
-                        child: Text('Order'),
-                        onPressed: () {},
+                        child: const Text('View order summary'),
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const OrderSummary()),
+                            );
+                          },
                       ),
                     ),
                     40.h,

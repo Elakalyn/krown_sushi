@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:krown_sushi/Modules/Host/host.dart';
+import 'package:krown_sushi/Modules/Track_Orders/trackOrders.dart';
 import 'package:krown_sushi/Shared/Components/components.dart';
 import 'package:speed_up_flutter/speed_up_flutter.dart';
+
+import '../../cubit/app_cubit.dart';
+import '../Menu/menu.dart';
 
 class PickDeliveryOption extends StatelessWidget {
   const PickDeliveryOption({super.key});
@@ -9,41 +15,6 @@ class PickDeliveryOption extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: NavigationDrawer(
-        // onDestinationSelected: handleScreenChanged,
-        // selectedIndex: screenIndex,
-        children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.fromLTRB(28, 16, 16, 10),
-            child: Text(
-              'Krown Sushi',
-              style: Theme.of(context).textTheme.titleLarge,
-            ),
-          ),
-          36.h,
-          Padding(
-            padding: const EdgeInsets.fromLTRB(28, 16, 16, 10),
-            child: Text(
-              'Main Screens',
-              style: Theme.of(context).textTheme.titleMedium,
-            ),
-          ),
-          18.h,
-          ...destinations.map(
-            (ExampleDestination destination) {
-              return NavigationDrawerDestination(
-                label: Text(destination.label),
-                icon: destination.icon,
-                selectedIcon: destination.selectedIcon,
-              );
-            },
-          ),
-          const Padding(
-            padding: EdgeInsets.fromLTRB(28, 16, 28, 10),
-            child: Divider(),
-          ),
-        ],
-      ),
       body: SafeArea(
         child: CustomScrollView(
           slivers: <Widget>[
@@ -91,7 +62,13 @@ class PickDeliveryOption extends StatelessWidget {
                             style: TextStyle(
                               fontSize: 18,
                             )),
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => OrderSummary()),
+                          );
+                        },
                       ),
                     ),
                     20.h,
@@ -103,7 +80,13 @@ class PickDeliveryOption extends StatelessWidget {
                             style: TextStyle(
                               fontSize: 18,
                             )),
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => OrderSummary()),
+                          );
+                        },
                       ),
                     ),
                   ],
@@ -123,41 +106,6 @@ class OrderSummary extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: NavigationDrawer(
-        // onDestinationSelected: handleScreenChanged,
-        // selectedIndex: screenIndex,
-        children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.fromLTRB(28, 16, 16, 10),
-            child: Text(
-              'Krown Sushi',
-              style: Theme.of(context).textTheme.titleLarge,
-            ),
-          ),
-          36.h,
-          Padding(
-            padding: const EdgeInsets.fromLTRB(28, 16, 16, 10),
-            child: Text(
-              'Main Screens',
-              style: Theme.of(context).textTheme.titleMedium,
-            ),
-          ),
-          18.h,
-          ...destinations.map(
-            (ExampleDestination destination) {
-              return NavigationDrawerDestination(
-                label: Text(destination.label),
-                icon: destination.icon,
-                selectedIcon: destination.selectedIcon,
-              );
-            },
-          ),
-          const Padding(
-            padding: EdgeInsets.fromLTRB(28, 16, 28, 10),
-            child: Divider(),
-          ),
-        ],
-      ),
       body: SafeArea(
         child: CustomScrollView(
           slivers: <Widget>[
@@ -355,7 +303,13 @@ class OrderSummary extends StatelessWidget {
                       width: double.maxFinite,
                       height: 50,
                       child: FilledButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => OrderSuccess()),
+                          );
+                        },
                         child: const Text(
                           'Order',
                           style: TextStyle(
@@ -381,41 +335,52 @@ class OrderSuccess extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Text(
-              "Order Placed\nSuccessfully!",
-              style: TextStyle(
-                fontSize: 35,
-              ),
-            ),
-            40.h,
-            Image.network(
-                'https://media.discordapp.net/attachments/673875945198714920/1154801896729628753/delivery.png'),
+    return BlocConsumer<AppCubit, AppState>(
+      listener: (context, state) {
+        // TODO: implement listener
+      },
+      builder: (context, state) {
+        return Scaffold(
+          body: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Text(
+                  "Order Placed\nSuccessfully!",
+                  style: TextStyle(
+                    fontSize: 35,
+                  ),
+                ),
+                40.h,
+                Image.network(
+                    'https://media.discordapp.net/attachments/673875945198714920/1154801896729628753/delivery.png'),
                 40.h,
                 SizedBox(
-                      height: 48,
-                          width:200,
-                      child: FilledButton(
-                        child: Text('Track Order'),
-                        onPressed: () {},
-                      ),
-                    ),
-                    20.h,
-                    SizedBox(
-                      height: 48,
-                      width:200,
-                      child: FilledButton(
-                        child: Text('Menu'),
-                        onPressed: () {},
-                      ),
-                    ),
-          ],
-        ),
-      ),
+                  height: 48,
+                  width: 200,
+                  child: FilledButton(
+                    child: Text('Track Order'),
+                    onPressed: () {
+                      AppCubit.get(context).completeOrder(context, 3);
+                    },
+                  ),
+                ),
+                20.h,
+                SizedBox(
+                  height: 48,
+                  width: 200,
+                  child: FilledButton(
+                    child: Text('Menu'),
+                    onPressed: () {
+                      AppCubit.get(context).completeOrder(context, 1);
+                    },
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 }

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:krown_sushi/Modules/Customize_Order/customizeOrder.dart';
+import 'package:krown_sushi/Modules/Order_Finalization/orderFinalization.dart';
 import 'package:krown_sushi/Shared/Components/components.dart';
 import 'package:speed_up_flutter/speed_up_flutter.dart';
 
@@ -153,7 +155,13 @@ class DishDetails extends StatelessWidget {
                       width: double.maxFinite,
                       height: 50,
                       child: FilledButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => PickDeliveryOption()),
+                          );
+                        },
                         child: Text(
                           'Order',
                           style: TextStyle(
@@ -188,7 +196,13 @@ class DishDetails extends StatelessWidget {
                       child: SizedBox(
                         width: 120,
                         child: FilledButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => CustomizeOrder()),
+                            );
+                          },
                           child: Center(
                             child: Text(
                               'Customize',
