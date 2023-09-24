@@ -31,7 +31,7 @@ class AppCubit extends Cubit<AppState> {
     OrderHistory(),
   ];
 
-  void completeOrder(context,index) {
+  void completeOrder(context, index) {
     screenIndex = index;
     emit(ScreenChanged());
     Navigator.pop(context);
@@ -73,4 +73,29 @@ class AppCubit extends Cubit<AppState> {
           ),
         ],
       );
+
+  var selectedFilter;
+  dynamic appetizerColor = Colors.white;
+  dynamic mainDishColor = Colors.white;
+  dynamic desertsColor = Colors.white;
+
+  void selectFilter(filter) {
+    if (filter == 1) {
+      selectedFilter = 'Appetizer';
+      appetizerColor = Colors.grey[300];
+      mainDishColor = Colors.white;
+      desertsColor = Colors.white;
+    } else if (filter == 2) {
+      selectedFilter = 'Main dish';
+      appetizerColor = Colors.white;
+      mainDishColor = Colors.grey[300];
+      desertsColor = Colors.white;
+    } else if (filter == 3) {
+      selectedFilter = 'Desert';
+      appetizerColor = Colors.white;
+      mainDishColor = Colors.white;
+      desertsColor = Colors.grey[300];
+    }
+    emit(SelectedFilterState());
+  }
 }

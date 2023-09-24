@@ -6,18 +6,31 @@ import 'package:krown_sushi/Modules/Menu/menu.dart';
 import 'package:speed_up_flutter/speed_up_flutter.dart';
 
 class dishCard extends StatelessWidget {
-  const dishCard({
+  dishCard({
     super.key,
+    required this.name,
+    required this.price,
+    required this.image,
+    required this.desc,
   });
+
+  late var name;
+  late var price;
+  late var image;
+  late var desc;
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: (){
-       Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => DishDetails()),
-            );
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => DishDetails(
+            desc: desc,
+            name: name,
+            image: image,
+          )),
+        );
       },
       child: Container(
         height: 183.6,
@@ -42,29 +55,29 @@ class dishCard extends StatelessWidget {
                   ClipRRect(
                     borderRadius: BorderRadius.circular(15.0),
                     child: Image.network(
-                      'https://firebasestorage.googleapis.com/v0/b/krown-sushi.appspot.com/o/dish_Images%2Fsalmon_sushi.jpg?alt=media&token=55672d35-c838-4e89-ad2a-adbee36e8197',
+                      image,
                       width: 131.53,
                       height: 107.37,
                       fit: BoxFit.cover,
                     ),
                   ),
                   10.h,
-                  const Align(
+                   Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
-                      'Food Name',
-                      style: TextStyle(
+                      name,
+                      style: const TextStyle(
                         color: Colors.black,
                         fontSize: 17,
                         fontWeight: FontWeight.w700,
                       ),
                     ),
                   ),
-                  const Align(
+                   Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
-                      '\$ 2.00',
-                      style: TextStyle(
+                      '\$ ${price}',
+                      style: const TextStyle(
                         color: Color(0xFF106FDF),
                         fontSize: 15,
                         fontWeight: FontWeight.w700,
@@ -83,10 +96,10 @@ class dishCard extends StatelessWidget {
                       height: 16,
                       decoration: ShapeDecoration(
                         color: HexColor('6750A4'),
-                        shape: OvalBorder(),
+                        shape: const OvalBorder(),
                       ),
                     ),
-                    Icon(
+                    const Icon(
                       Icons.add,
                       size: 12,
                       color: Colors.white,
@@ -212,11 +225,11 @@ class suggestionDishCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: (){
-       Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => DishDetails()),
-            );
+      onTap: () {
+        // Navigator.push(
+        //   context,
+        //   MaterialPageRoute(builder: (context) => DishDetails()),
+        // );
       },
       child: Container(
         width: 320,
@@ -248,10 +261,10 @@ class suggestionDishCard extends StatelessWidget {
             ),
             Expanded(
               child: Padding(
-                padding: EdgeInsets.all(10.0),
+                padding: const EdgeInsets.all(10.0),
                 child: Column(
                   children: [
-                    Text(
+                    const Text(
                       'Food Name',
                       style: TextStyle(
                         color: Colors.black,
@@ -259,7 +272,7 @@ class suggestionDishCard extends StatelessWidget {
                         fontWeight: FontWeight.w700,
                       ),
                     ),
-                    Align(
+                    const Align(
                       alignment: Alignment.centerLeft,
                       child: Text(
                         '\$ 2.00',
@@ -270,7 +283,7 @@ class suggestionDishCard extends StatelessWidget {
                         ),
                       ),
                     ),
-                    Spacer(),
+                    const Spacer(),
                     Align(
                       alignment: Alignment.bottomRight,
                       child: Padding(
@@ -283,10 +296,10 @@ class suggestionDishCard extends StatelessWidget {
                               height: 20,
                               decoration: ShapeDecoration(
                                 color: HexColor('6750A4'),
-                                shape: OvalBorder(),
+                                shape: const OvalBorder(),
                               ),
                             ),
-                            Icon(
+                            const Icon(
                               Icons.add,
                               color: Colors.white,
                             ),
@@ -337,7 +350,7 @@ class table extends StatelessWidget {
         children: [
           Image.network(
               'https://media.discordapp.net/attachments/673875945198714920/1154418629610328074/occupiedDoublesTable.png'),
-          Text('A6',
+          const Text('A6',
               style: TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.w500,
@@ -348,4 +361,3 @@ class table extends StatelessWidget {
     );
   }
 }
-

@@ -6,7 +6,17 @@ import 'package:krown_sushi/Shared/Components/components.dart';
 import 'package:speed_up_flutter/speed_up_flutter.dart';
 
 class DishDetails extends StatelessWidget {
-  DishDetails({super.key});
+  DishDetails(
+      {super.key,
+      required this.name,
+      required this.image,
+      required this.desc,
+});
+
+  final name;
+  final image;
+  final desc;
+
   final GlobalKey<ScaffoldState> _key = GlobalKey();
   @override
   Widget build(BuildContext context) {
@@ -79,7 +89,7 @@ class DishDetails extends StatelessWidget {
                   children: [
                     40.h,
                     Text(
-                      "California Roll",
+                      name,
                       style: TextStyle(
                         fontSize: 35,
                       ),
@@ -88,7 +98,7 @@ class DishDetails extends StatelessWidget {
                     ClipRRect(
                       borderRadius: BorderRadius.circular(15.0),
                       child: Image.network(
-                        'https://firebasestorage.googleapis.com/v0/b/krown-sushi.appspot.com/o/dish_Images%2Fsalmon_sushi.jpg?alt=media&token=55672d35-c838-4e89-ad2a-adbee36e8197',
+                        image,
                         width: 320,
                         height: 145,
                         fit: BoxFit.fitWidth,
@@ -182,7 +192,7 @@ class DishDetails extends StatelessWidget {
                     ),
                     20.h,
                     Text(
-                      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed sit amet blandit ipsum',
+                      desc,
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         color: Colors.black,
@@ -194,7 +204,7 @@ class DishDetails extends StatelessWidget {
                     Align(
                       alignment: Alignment.centerLeft,
                       child: SizedBox(
-                        width: 120,
+                        width: 125,
                         child: FilledButton(
                           onPressed: () {
                             Navigator.push(
@@ -227,9 +237,9 @@ class DishDetails extends StatelessWidget {
                     20.h,
                     Row(
                       children: [
-                        dishCard(),
+                        //  dishCard(),
                         14.w,
-                        dishCard(),
+                        // dishCard(),
                       ],
                     ),
                     40.h,

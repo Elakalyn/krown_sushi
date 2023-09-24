@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hexcolor/hexcolor.dart';
@@ -16,6 +17,10 @@ class MenuScreen extends StatelessWidget {
         // TODO: implement listener
       },
       builder: (context, state) {
+        CollectionReference dishesCollection =
+            FirebaseFirestore.instance.collection('dishes');
+        dynamic taggedDishesRef = dishesCollection.where('type',
+            isEqualTo: AppCubit.get(context).selectedFilter);
         return Scaffold(
           key: _key,
           drawer: AppCubit.get(context).navigator(),
@@ -77,13 +82,7 @@ class MenuScreen extends StatelessWidget {
                               height: 220,
                             ),
                             InkWell(
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => DishDetails()),
-                                );
-                              },
+                              onTap: () {},
                               child: Container(
                                 width: 320,
                                 height: 205,
@@ -143,31 +142,87 @@ class MenuScreen extends StatelessWidget {
                                 ),
                               ),
                             ),
-                            14.h,
-                            Row(
-                              children: [
-                                dishCard(),
-                                14.w,
-                                dishCard(),
-                              ],
-                            ),
                             40.h,
                             Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                dishCard(),
-                                14.w,
-                                dishCard(),
+                                ActionChip(
+                                  backgroundColor:
+                                      AppCubit.get(context).appetizerColor,
+                                  label: Text('Appetizers'),
+                                  onPressed: () {
+                                    AppCubit.get(context).selectFilter(1);
+                                  },
+                                ),
+                                4.w,
+                                ActionChip(
+                                  backgroundColor:
+                                      AppCubit.get(context).mainDishColor,
+                                  label: Text('Main dishes'),
+                                  onPressed: () {
+                                    AppCubit.get(context).selectFilter(2);
+                                  },
+                                ),
+                                4.w,
+                                ActionChip(
+                                  backgroundColor:
+                                      AppCubit.get(context).desertsColor,
+                                  label: Text('Deserts'),
+                                  onPressed: () {
+                                    AppCubit.get(context).selectFilter(3);
+                                  },
+                                ),
                               ],
                             ),
                             20.h,
-                            Row(
-                              children: [
-                                dishCard(),
-                                14.w,
-                                dishCard(),
-                              ],
-                            ),
-                            20.h,
+                            StreamBuilder<QuerySnapshot>(
+                                stream: taggedDishesRef.snapshots(),
+                                builder: (context, snapshot) {
+                                  if (snapshot.hasError) {
+                                    return Text('Error: ${snapshot.error}');
+                                  }
+
+                                  if (snapshot.connectionState ==
+                                      ConnectionState.waiting) {
+                                    return const CircularProgressIndicator();
+                                  }
+
+                                  final QuerySnapshot? querySnapshot =
+                                      snapshot.data;
+
+                                  if (querySnapshot == null) {
+                                    print('DATA DOES NOT EXIST.');
+                                    return Text(
+                                      'No data available',
+                                    );
+                                  }
+
+                                  return GridView.builder(
+                                    shrinkWrap: true,
+                                    physics:
+                                        const NeverScrollableScrollPhysics(),
+                                    gridDelegate:
+                                        SliverGridDelegateWithFixedCrossAxisCount(
+                                      crossAxisCount: 2,
+                                      mainAxisSpacing: 20,
+                                      crossAxisSpacing: 14,
+                                      childAspectRatio: .8,
+                                    ),
+                                    itemCount: querySnapshot.docs.length,
+                                    itemBuilder:
+                                        (BuildContext context, int index) {
+                                      final DocumentSnapshot<Object?> document =
+                                          querySnapshot.docs[index];
+
+                                      return dishCard(
+                                        name: document['name'],
+                                        price: document['price'],
+                                        desc: document['description'],
+                                        image: document['image'],
+                                      );
+                                    },
+                                  );
+                                }),
                           ],
                         )),
                   ),
