@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hexcolor/hexcolor.dart';
-import 'package:krown_sushi/Modules/Dish_Details/dishDetails.dart';
+import 'package:krown_sushi/Modules/Search/search.dart';
 import 'package:krown_sushi/Shared/Components/components.dart';
 import 'package:krown_sushi/cubit/app_cubit.dart';
 import 'package:speed_up_flutter/speed_up_flutter.dart';
@@ -43,30 +43,20 @@ class MenuScreen extends StatelessWidget {
                           ),
                         ),
                         const Spacer(),
-                        Container(
-                          width: 236,
-                          height: 40,
-                          decoration: BoxDecoration(
-                              color: HexColor('6750A4'),
-                              borderRadius: BorderRadius.circular(45)),
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Padding(
-                              padding: const EdgeInsets.all(0.0),
-                              child: TextFormField(
-                                decoration: const InputDecoration(
-                                  border: InputBorder.none,
-                                  focusedBorder: InputBorder.none,
-                                  enabledBorder: InputBorder.none,
-                                  errorBorder: InputBorder.none,
-                                  disabledBorder: InputBorder.none,
-                                ),
-                                style: const TextStyle(color: Colors.white),
-                              ),
-                            ),
+                        InkWell(
+                          onTap: () {
+                           Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => SearchScreen()),
+                          );
+                          },
+                          child: CircleAvatar(
+                            child: const Icon(Icons.search, color: Colors.white),
+                            backgroundColor: HexColor('6750A4'),
                           ),
                         ),
-                      ],
+                       ],
                     ),
                   ),
                 ),

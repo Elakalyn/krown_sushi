@@ -4,6 +4,7 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:krown_sushi/Shared/Components/components.dart';
 import 'package:krown_sushi/cubit/app_cubit.dart';
 import 'package:speed_up_flutter/speed_up_flutter.dart';
+import 'package:krown_sushi/Modules/Search/search.dart';
 
 class TableReservation extends StatelessWidget {
   TableReservation({super.key});
@@ -23,8 +24,8 @@ class TableReservation extends StatelessWidget {
               slivers: <Widget>[
                 SliverToBoxAdapter(
                   child: Padding(
-                    padding:
-                        const EdgeInsets.only(top: 20.0, right: 20.0, left: 20.0),
+                    padding: const EdgeInsets.only(
+                        top: 20.0, right: 20.0, left: 20.0),
                     child: Row(
                       children: [
                         InkWell(
@@ -37,7 +38,20 @@ class TableReservation extends StatelessWidget {
                           ),
                         ),
                         const Spacer(),
-                      ],
+                        InkWell(
+                          onTap: () {
+                           Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => SearchScreen()),
+                          );
+                          },
+                          child: CircleAvatar(
+                            child: const Icon(Icons.search, color: Colors.white),
+                            backgroundColor: HexColor('6750A4'),
+                          ),
+                        ),
+                       ],
                     ),
                   ),
                 ),

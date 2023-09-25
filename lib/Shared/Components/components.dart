@@ -25,11 +25,12 @@ class dishCard extends StatelessWidget {
       onTap: () {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => DishDetails(
-            desc: desc,
-            name: name,
-            image: image,
-          )),
+          MaterialPageRoute(
+              builder: (context) => DishDetails(
+                    desc: desc,
+                    name: name,
+                    image: image,
+                  )),
         );
       },
       child: Container(
@@ -62,7 +63,7 @@ class dishCard extends StatelessWidget {
                     ),
                   ),
                   10.h,
-                   Align(
+                  Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
                       name,
@@ -73,7 +74,7 @@ class dishCard extends StatelessWidget {
                       ),
                     ),
                   ),
-                   Align(
+                  Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
                       '\$ ${price}',
@@ -218,22 +219,32 @@ class dishProgressCard extends StatelessWidget {
 }
 
 class suggestionDishCard extends StatelessWidget {
-  const suggestionDishCard({
+  suggestionDishCard({
     super.key,
+    required this.name,
+    required this.price,
+    required this.image,
+    required this.desc,
   });
+  late var name;
+  late var price;
+  late var image;
+  late var desc;
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        // Navigator.push(
-        //   context,
-        //   MaterialPageRoute(builder: (context) => DishDetails()),
-        // );
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => DishDetails(
+                  name: name, desc: desc, image: image,)),
+        );
       },
       child: Container(
         width: 320,
-        height: 135,
+        height: 151,
         decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(15),
@@ -252,9 +263,9 @@ class suggestionDishCard extends StatelessWidget {
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(15.0),
                 child: Image.network(
-                  'https://firebasestorage.googleapis.com/v0/b/krown-sushi.appspot.com/o/dish_Images%2Fsalmon_sushi.jpg?alt=media&token=55672d35-c838-4e89-ad2a-adbee36e8197',
+                  image,
                   width: 160,
-                  height: 115,
+                  height: 131,
                   fit: BoxFit.fitHeight,
                 ),
               ),
@@ -264,18 +275,21 @@ class suggestionDishCard extends StatelessWidget {
                 padding: const EdgeInsets.all(10.0),
                 child: Column(
                   children: [
-                    const Text(
-                      'Food Name',
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 21,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                    const Align(
+                     Align(
+                        alignment: Alignment.centerLeft,
+                       child: Text(
+                        name,
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 21,
+                          fontWeight: FontWeight.w700,
+                        ),
+                                         ),
+                     ),
+                   Align(
                       alignment: Alignment.centerLeft,
                       child: Text(
-                        '\$ 2.00',
+                        '\$ $price',
                         style: TextStyle(
                           color: Color(0xFF106FDF),
                           fontSize: 19,

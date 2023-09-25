@@ -6,12 +6,12 @@ import 'package:krown_sushi/Shared/Components/components.dart';
 import 'package:speed_up_flutter/speed_up_flutter.dart';
 
 class DishDetails extends StatelessWidget {
-  DishDetails(
-      {super.key,
-      required this.name,
-      required this.image,
-      required this.desc,
-});
+  DishDetails({
+    super.key,
+    required this.name,
+    required this.image,
+    required this.desc,
+  });
 
   final name;
   final image;
@@ -235,13 +235,96 @@ class DishDetails extends StatelessWidget {
                       ),
                     ),
                     20.h,
-                    Row(
-                      children: [
-                        //  dishCard(),
-                        14.w,
-                        // dishCard(),
-                      ],
-                    ),
+                    if (name == 'Salmon')
+                      Row(
+                        children: [
+                          dishCard(
+                              price: '7.00',
+                              name: 'Shrimp',
+                              desc: '',
+                              image:
+                                  'https://firebasestorage.googleapis.com/v0/b/krown-sushi.appspot.com/o/dish_Images%2Fshrimp.jpg?alt=media&token=99874d14-f32b-4ec9-817a-0fe3f01a2321'),
+                          14.w,
+                          dishCard(
+                              name: 'Maki',
+                              price: '5.00',
+                              desc: '',
+                              image:
+                                  'https://firebasestorage.googleapis.com/v0/b/krown-sushi.appspot.com/o/dish_Images%2Fmaki.webp?alt=media&token=47a96fb7-cd4a-422a-9594-a3e865eb6948'),
+                        ],
+                      ),
+                    if (name == 'Ocean Delight')
+                      Row(
+                        children: [
+                          dishCard(
+                              price: '7.00',
+                              name: 'Shrimp',
+                              desc: '',
+                              image:
+                                  'https://firebasestorage.googleapis.com/v0/b/krown-sushi.appspot.com/o/dish_Images%2Fshrimp.jpg?alt=media&token=99874d14-f32b-4ec9-817a-0fe3f01a2321'),
+                          14.w,
+                          dishCard(
+                              name: 'Maki',
+                              price: '5.00',
+                              desc: '',
+                              image:
+                                  'https://firebasestorage.googleapis.com/v0/b/krown-sushi.appspot.com/o/dish_Images%2Fmaki.webp?alt=media&token=47a96fb7-cd4a-422a-9594-a3e865eb6948'),
+                        ],
+                      ),
+                    if (name == 'California Roll')
+                      Row(
+                        children: [
+                          dishCard(
+                              price: '7.00',
+                              name: 'Shrimp',
+                              desc: '',
+                              image:
+                                  'https://firebasestorage.googleapis.com/v0/b/krown-sushi.appspot.com/o/dish_Images%2Fshrimp.jpg?alt=media&token=99874d14-f32b-4ec9-817a-0fe3f01a2321'),
+                          14.w,
+                          dishCard(
+                              name: 'Maki',
+                              price: '5.00',
+                              desc: '',
+                              image:
+                                  'https://firebasestorage.googleapis.com/v0/b/krown-sushi.appspot.com/o/dish_Images%2Fmaki.webp?alt=media&token=47a96fb7-cd4a-422a-9594-a3e865eb6948'),
+                        ],
+                      ),
+                    if (name == 'Shrimp')
+                      Row(
+                        children: [
+                          dishCard(
+                              price: '5.00',
+                              name: 'California Roll',
+                              desc: '',
+                              image:
+                                  'https://firebasestorage.googleapis.com/v0/b/krown-sushi.appspot.com/o/dish_Images%2Fcalifornia_roll.jpg?alt=media&token=9b7e6d8c-eee8-42f5-9a14-b2d08f25a519'),
+                          14.w,
+                          dishCard(
+                              name: 'Maki',
+                              price: '5.00',
+                              desc: '',
+                              image:
+                                  'https://firebasestorage.googleapis.com/v0/b/krown-sushi.appspot.com/o/dish_Images%2Fmaki.webp?alt=media&token=47a96fb7-cd4a-422a-9594-a3e865eb6948'),
+                        ],
+                      ),
+                    if (name == 'Maki')
+                      Row(
+                        children: [
+                          dishCard(
+                              price: '5.00',
+                              name: 'California Roll',
+                              desc: '',
+                              image:
+                                  'https://firebasestorage.googleapis.com/v0/b/krown-sushi.appspot.com/o/dish_Images%2Fcalifornia_roll.jpg?alt=media&token=9b7e6d8c-eee8-42f5-9a14-b2d08f25a519'),
+                          14.w,
+                          dishCard(
+                              name: 'Salmon',
+                              price: '12.00',
+                              desc: '',
+                              image:
+                                  'https://firebasestorage.googleapis.com/v0/b/krown-sushi.appspot.com/o/dish_Images%2Fsalmon_sushi.jpg?alt=media&token=55672d35-c838-4e89-ad2a-adbee36e8197'),
+                        ],
+                      ),
                     40.h,
                   ],
                 ),

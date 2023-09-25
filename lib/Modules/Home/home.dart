@@ -1,9 +1,11 @@
 // ignore_for_file: unused_import
 
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:krown_sushi/Modules/Search/search.dart';
 import 'package:krown_sushi/Shared/Components/components.dart';
 import 'package:krown_sushi/cubit/app_cubit.dart';
 import 'package:speed_up_flutter/speed_up_flutter.dart';
@@ -13,14 +15,16 @@ class HomeScreen extends StatelessWidget {
   final GlobalKey<ScaffoldState> _key = GlobalKey();
   @override
   Widget build(BuildContext context) {
-    var itemCount = 7;
 
     return BlocConsumer<AppCubit, AppState>(
       listener: (context, state) {},
       builder: (context, state) {
+        CollectionReference dishesCollection =
+            FirebaseFirestore.instance.collection('dishes');
+        dynamic dishesRef = dishesCollection;
         return Scaffold(
           key: _key,
-           drawer: AppCubit.get(context).navigator(),
+          drawer: AppCubit.get(context).navigator(),
           body: SafeArea(
             child: CustomScrollView(
               slivers: <Widget>[
@@ -40,30 +44,20 @@ class HomeScreen extends StatelessWidget {
                           ),
                         ),
                         const Spacer(),
-                        Container(
-                          width: 236,
-                          height: 40,
-                          decoration: BoxDecoration(
-                              color: HexColor('6750A4'),
-                              borderRadius: BorderRadius.circular(45)),
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Padding(
-                              padding: const EdgeInsets.all(0.0),
-                              child: TextFormField(
-                                decoration: const InputDecoration(
-                                  border: InputBorder.none,
-                                  focusedBorder: InputBorder.none,
-                                  enabledBorder: InputBorder.none,
-                                  errorBorder: InputBorder.none,
-                                  disabledBorder: InputBorder.none,
-                                ),
-                                style: const TextStyle(color: Colors.white),
-                              ),
-                            ),
+                        InkWell(
+                          onTap: () {
+                           Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => SearchScreen()),
+                          );
+                          },
+                          child: CircleAvatar(
+                            child: const Icon(Icons.search, color: Colors.white),
+                            backgroundColor: HexColor('6750A4'),
                           ),
                         ),
-                      ],
+                       ],
                     ),
                   ),
                 ),
@@ -100,16 +94,50 @@ class HomeScreen extends StatelessWidget {
                             ),
                           ),
                           20.h,
-                          SizedBox(
-                            height: (itemCount * 135) + (itemCount * 20) + 40,
-                            child: ListView.separated(
-                              itemBuilder: (context, index) =>
-                                  suggestionDishCard(),
-                              separatorBuilder: (context, index) => 20.h,
-                              itemCount: itemCount,
-                              physics: NeverScrollableScrollPhysics(),
-                            ),
+                          StreamBuilder<QuerySnapshot>(
+                            stream: dishesRef.snapshots(),
+                            builder:
+                                (BuildContext context, AsyncSnapshot snapshot) {
+                              if (snapshot.hasError) {
+                                return Text('Error: ${snapshot.error}');
+                              }
+
+                              if (snapshot.connectionState ==
+                                  ConnectionState.waiting) {
+                                return const CircularProgressIndicator();
+                              }
+
+                              final QuerySnapshot? querySnapshot =
+                                  snapshot.data;
+
+                              if (querySnapshot == null) {
+                                print('DATA DOES NOT EXIST.');
+                                return Text(
+                                  'No data available',
+                                );
+                              }
+
+                              return ListView.separated(
+                                
+                                shrinkWrap: true,
+                                itemBuilder: (context, index) {
+                                  final DocumentSnapshot<Object?> document =
+                                      querySnapshot.docs[index];
+
+                                 return suggestionDishCard(
+                                    name: document['name'],
+                                    desc: document['description'],
+                                    image: document['image'],
+                                    price: document['price'],
+                                  );
+                                },
+                                separatorBuilder: (context, index) => 20.h,
+                                itemCount: querySnapshot.docs.length,
+                                physics: NeverScrollableScrollPhysics(),
+                              );
+                            },
                           ),
+                          40.h,
                         ],
                       ),
                     ),
@@ -123,9 +151,3 @@ class HomeScreen extends StatelessWidget {
     );
   }
 }
-
-List<Widget> suggestedItems = [
-  suggestionDishCard(),
-  suggestionDishCard(),
-  suggestionDishCard(),
-];

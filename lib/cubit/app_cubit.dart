@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:krown_sushi/Modules/Home/home.dart';
@@ -97,5 +98,32 @@ class AppCubit extends Cubit<AppState> {
       desertsColor = Colors.grey[300];
     }
     emit(SelectedFilterState());
+  }
+
+  Future<List<DocumentSnapshot>> searchDocuments(String searchQuery) async {
+    emit(SearchLoadingState());
+    final QuerySnapshot snapshot = await FirebaseFirestore.instance
+        .collection('dishes') // Replace with your collection name
+        .where('name', isGreaterThanOrEqualTo: searchQuery)
+        .get().whenComplete(() {
+          emit(SearchSuccessState());
+        }).catchError((e){
+          emit(SearchErrorState());
+          print(e.toString());
+        });
+
+    return snapshot.docs;
+  }
+
+  String searchQuery = '';
+  List<DocumentSnapshot> searchResults = [];
+
+  void performSearch() async {
+    emit(StartSearchState());
+    if (searchQuery.isNotEmpty) {
+      final List<DocumentSnapshot> results = await searchDocuments(searchQuery.toUpperCase());
+
+      searchResults = results;
+    }
   }
 }
