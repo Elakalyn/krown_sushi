@@ -15,7 +15,6 @@ class HomeScreen extends StatelessWidget {
   final GlobalKey<ScaffoldState> _key = GlobalKey();
   @override
   Widget build(BuildContext context) {
-
     return BlocConsumer<AppCubit, AppState>(
       listener: (context, state) {},
       builder: (context, state) {
@@ -46,18 +45,19 @@ class HomeScreen extends StatelessWidget {
                         const Spacer(),
                         InkWell(
                           onTap: () {
-                           Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => SearchScreen()),
-                          );
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => SearchScreen()),
+                            );
                           },
                           child: CircleAvatar(
-                            child: const Icon(Icons.search, color: Colors.white),
+                            child:
+                                const Icon(Icons.search, color: Colors.white),
                             backgroundColor: HexColor('6750A4'),
                           ),
                         ),
-                       ],
+                      ],
                     ),
                   ),
                 ),
@@ -80,7 +80,7 @@ class HomeScreen extends StatelessWidget {
                             ),
                           ),
                           20.h,
-                          dishProgressCard(),
+                      //    dishProgressCard(),
                           40.h,
                           const Align(
                             alignment: Alignment.centerLeft,
@@ -118,13 +118,12 @@ class HomeScreen extends StatelessWidget {
                               }
 
                               return ListView.separated(
-                                
                                 shrinkWrap: true,
                                 itemBuilder: (context, index) {
                                   final DocumentSnapshot<Object?> document =
                                       querySnapshot.docs[index];
 
-                                 return suggestionDishCard(
+                                  return suggestionDishCard(
                                     name: document['name'],
                                     desc: document['description'],
                                     image: document['image'],

@@ -45,18 +45,19 @@ class MenuScreen extends StatelessWidget {
                         const Spacer(),
                         InkWell(
                           onTap: () {
-                           Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => SearchScreen()),
-                          );
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => SearchScreen()),
+                            );
                           },
                           child: CircleAvatar(
-                            child: const Icon(Icons.search, color: Colors.white),
+                            child:
+                                const Icon(Icons.search, color: Colors.white),
                             backgroundColor: HexColor('6750A4'),
                           ),
                         ),
-                       ],
+                      ],
                     ),
                   ),
                 ),
@@ -213,6 +214,7 @@ class MenuScreen extends StatelessWidget {
                                     },
                                   );
                                 }),
+                            40.h,
                           ],
                         )),
                   ),

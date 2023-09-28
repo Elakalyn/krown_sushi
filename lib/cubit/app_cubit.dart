@@ -2,10 +2,13 @@ import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 import 'package:krown_sushi/Modules/Home/home.dart';
 import 'package:krown_sushi/Modules/Menu/menu.dart';
+import 'package:krown_sushi/Modules/Order_Finalization/orderFinalization.dart';
 import 'package:krown_sushi/Modules/Order_History/orderHistory.dart';
 import 'package:krown_sushi/Modules/Track_Orders/trackOrders.dart';
+import 'package:krown_sushi/Shared/Constants/constants.dart';
 import 'package:meta/meta.dart';
 import 'package:speed_up_flutter/speed_up_flutter.dart';
 
@@ -105,25 +108,70 @@ class AppCubit extends Cubit<AppState> {
     final QuerySnapshot snapshot = await FirebaseFirestore.instance
         .collection('dishes') // Replace with your collection name
         .where('name', isGreaterThanOrEqualTo: searchQuery)
-        .get().whenComplete(() {
-          emit(SearchSuccessState());
-        }).catchError((e){
-          emit(SearchErrorState());
-          print(e.toString());
-        });
+        .get()
+        .whenComplete(() {
+      emit(SearchSuccessState());
+    }).catchError((e) {
+      emit(SearchErrorState());
+      print(e.toString());
+    });
 
     return snapshot.docs;
   }
 
   String searchQuery = '';
   List<DocumentSnapshot> searchResults = [];
+  
 
   void performSearch() async {
     emit(StartSearchState());
     if (searchQuery.isNotEmpty) {
-      final List<DocumentSnapshot> results = await searchDocuments(searchQuery.toUpperCase());
+      final List<DocumentSnapshot> results =
+          await searchDocuments(searchQuery.toUpperCase());
 
       searchResults = results;
     }
+  }
+String getCurrentTime() {
+  final now = DateTime.now();
+  final formatter = DateFormat('h:mm a dd/MM/yyyy');
+  return formatter.format(now);
+}
+  Future<void> makeOrder(
+      {required String name,
+      required String price,
+      required String fulfillment,
+      required String delivery,
+      required List? customizations,
+      required int quantity,
+      required String image,
+      required context}) async {
+    emit(MakeOrderLoadingState());
+    var order = {
+      'name': name,
+      'price': price,
+      'fulfillment': fulfillment,
+      'delivery_method': delivery,
+      'date': getCurrentTime(),
+      'customizations': customizations,
+      'quantity': quantity,
+      'image':image
+    };
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(userID)
+        .collection('orders')
+        .add(order)
+        .then((value) {
+      value.update({'id': value.id});
+      emit(MakeOrderSuccessState());
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => OrderSuccess()),
+      );
+    }).catchError((e) {
+      print(e.toString());
+      emit(MakeOrderErrorState());
+    });
   }
 }

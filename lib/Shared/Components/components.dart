@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:krown_sushi/Modules/Dish_Details/dishDetails.dart';
-import 'package:krown_sushi/Modules/Host/host.dart';
-import 'package:krown_sushi/Modules/Menu/menu.dart';
 import 'package:speed_up_flutter/speed_up_flutter.dart';
 
 class dishCard extends StatelessWidget {
@@ -30,6 +28,7 @@ class dishCard extends StatelessWidget {
                     desc: desc,
                     name: name,
                     image: image,
+                    price: price,
                   )),
         );
       },
@@ -117,9 +116,18 @@ class dishCard extends StatelessWidget {
 }
 
 class dishProgressCard extends StatelessWidget {
-  const dishProgressCard({
+  dishProgressCard({
     super.key,
+    required this.name,
+    required this.image,
+    required this.status,
+    required this.progress,
   });
+
+  final String name;
+  final String image;
+  final String status;
+  final double progress;
 
   @override
   Widget build(BuildContext context) {
@@ -144,7 +152,7 @@ class dishProgressCard extends StatelessWidget {
             child: ClipRRect(
               borderRadius: BorderRadius.circular(15.0),
               child: Image.network(
-                'https://firebasestorage.googleapis.com/v0/b/krown-sushi.appspot.com/o/dish_Images%2Fsalmon_sushi.jpg?alt=media&token=55672d35-c838-4e89-ad2a-adbee36e8197',
+                image,
                 width: 300,
                 height: 115,
                 fit: BoxFit.fitWidth,
@@ -152,14 +160,14 @@ class dishProgressCard extends StatelessWidget {
             ),
           ),
           10.h,
-          const Row(
+          Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Padding(
                 padding: EdgeInsets.only(left: 10),
                 child: Text(
-                  'Food Name',
+                  name,
                   style: TextStyle(
                     color: Colors.black,
                     fontSize: 21,
@@ -171,7 +179,7 @@ class dishProgressCard extends StatelessWidget {
               Padding(
                 padding: EdgeInsets.only(right: 10.0),
                 child: Chip(
-                  label: Text('Packaging'),
+                  label: Text(status),
                 ),
               )
             ],
@@ -198,7 +206,7 @@ class dishProgressCard extends StatelessWidget {
                   child: Align(
                     alignment: Alignment.centerLeft,
                     child: Container(
-                      width: 210,
+                      width: progress,
                       height: 12,
                       decoration: ShapeDecoration(
                         color: const Color(0xFF6750A4),
@@ -239,7 +247,7 @@ class suggestionDishCard extends StatelessWidget {
           context,
           MaterialPageRoute(
               builder: (context) => DishDetails(
-                  name: name, desc: desc, image: image,)),
+                  name: name, desc: desc, image: image, price: price)),
         );
       },
       child: Container(
@@ -275,18 +283,18 @@ class suggestionDishCard extends StatelessWidget {
                 padding: const EdgeInsets.all(10.0),
                 child: Column(
                   children: [
-                     Align(
-                        alignment: Alignment.centerLeft,
-                       child: Text(
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
                         name,
                         style: TextStyle(
                           color: Colors.black,
                           fontSize: 21,
                           fontWeight: FontWeight.w700,
                         ),
-                                         ),
-                     ),
-                   Align(
+                      ),
+                    ),
+                    Align(
                       alignment: Alignment.centerLeft,
                       child: Text(
                         '\$ $price',

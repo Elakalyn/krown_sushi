@@ -11,11 +11,13 @@ class DishDetails extends StatelessWidget {
     required this.name,
     required this.image,
     required this.desc,
+    required this.price,
   });
 
   final name;
   final image;
   final desc;
+  final price;
 
   final GlobalKey<ScaffoldState> _key = GlobalKey();
   @override
@@ -169,7 +171,12 @@ class DishDetails extends StatelessWidget {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => PickDeliveryOption()),
+                                builder: (context) => PickDeliveryOption(
+                                      name: name,
+                                      price: price,
+                                      desc: desc,
+                                      image: image,
+                                    )),
                           );
                         },
                         child: Text(
@@ -210,7 +217,12 @@ class DishDetails extends StatelessWidget {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => CustomizeOrder()),
+                                  builder: (context) => CustomizeOrder(
+                                        name: name,
+                                        price: price,
+                                        desc: desc,
+                                        image: image,
+                                      )),
                             );
                           },
                           child: Center(
@@ -308,6 +320,42 @@ class DishDetails extends StatelessWidget {
                         ],
                       ),
                     if (name == 'Maki')
+                      Row(
+                        children: [
+                          dishCard(
+                              price: '5.00',
+                              name: 'California Roll',
+                              desc: '',
+                              image:
+                                  'https://firebasestorage.googleapis.com/v0/b/krown-sushi.appspot.com/o/dish_Images%2Fcalifornia_roll.jpg?alt=media&token=9b7e6d8c-eee8-42f5-9a14-b2d08f25a519'),
+                          14.w,
+                          dishCard(
+                              name: 'Salmon',
+                              price: '12.00',
+                              desc: '',
+                              image:
+                                  'https://firebasestorage.googleapis.com/v0/b/krown-sushi.appspot.com/o/dish_Images%2Fsalmon_sushi.jpg?alt=media&token=55672d35-c838-4e89-ad2a-adbee36e8197'),
+                        ],
+                      ),
+                    if (name == 'Miso Soup')
+                      Row(
+                        children: [
+                          dishCard(
+                              price: '5.00',
+                              name: 'California Roll',
+                              desc: '',
+                              image:
+                                  'https://firebasestorage.googleapis.com/v0/b/krown-sushi.appspot.com/o/dish_Images%2Fcalifornia_roll.jpg?alt=media&token=9b7e6d8c-eee8-42f5-9a14-b2d08f25a519'),
+                          14.w,
+                          dishCard(
+                              name: 'Salmon',
+                              price: '12.00',
+                              desc: '',
+                              image:
+                                  'https://firebasestorage.googleapis.com/v0/b/krown-sushi.appspot.com/o/dish_Images%2Fsalmon_sushi.jpg?alt=media&token=55672d35-c838-4e89-ad2a-adbee36e8197'),
+                        ],
+                      ),
+                   if (name == 'Sashimi Platter')
                       Row(
                         children: [
                           dishCard(
