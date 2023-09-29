@@ -121,7 +121,6 @@ class AppCubit extends Cubit<AppState> {
 
   String searchQuery = '';
   List<DocumentSnapshot> searchResults = [];
-  
 
   void performSearch() async {
     emit(StartSearchState());
@@ -132,11 +131,13 @@ class AppCubit extends Cubit<AppState> {
       searchResults = results;
     }
   }
-String getCurrentTime() {
-  final now = DateTime.now();
-  final formatter = DateFormat('h:mm a dd/MM/yyyy');
-  return formatter.format(now);
-}
+
+  String getCurrentTime() {
+    final now = DateTime.now();
+    final formatter = DateFormat('h:mm a dd/MM/yyyy');
+    return formatter.format(now);
+  }
+
   Future<void> makeOrder(
       {required String name,
       required String price,
@@ -155,7 +156,7 @@ String getCurrentTime() {
       'date': getCurrentTime(),
       'customizations': customizations,
       'quantity': quantity,
-      'image':image
+      'image': image
     };
     await FirebaseFirestore.instance
         .collection('users')
@@ -174,4 +175,46 @@ String getCurrentTime() {
       emit(MakeOrderErrorState());
     });
   }
+
+  var selectedTime;
+
+  Future<void> timePicker(context) async {
+    final TimeOfDay? result = await showTimePicker(
+      context: context,
+      initialTime: TimeOfDay.now(),
+      builder: (context, child) {
+        return MediaQuery(
+          data: MediaQuery.of(context).copyWith(
+            // Using 12-Hour format with AM/PM indicators
+            alwaysUse24HourFormat: false,
+          ),
+          child: child!,
+        );
+      },
+    );
+    if (result != null) {
+      selectedTime = result.format(context);
+      emit(SelectTimeState());
+    }
+  }
+
+  var selectedTable;
+  selectTable(name) {
+    selectedTable = name;
+    emit(SelectTableState());
+  }
+
+  Future<bool> checkAvailability(time, table) async {
+    final CollectionReference reservations =
+        FirebaseFirestore.instance.collection('reservations');
+
+    final Query query = reservations
+        .where('table', isEqualTo: table)
+        .where('time', isEqualTo: time);
+
+    final QuerySnapshot snapshot = await query.get();
+    return snapshot.docs.isEmpty;
+  }
+
+  
 }

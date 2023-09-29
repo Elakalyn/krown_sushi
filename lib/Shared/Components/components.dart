@@ -357,29 +357,3 @@ const List<ExampleDestination> destinations = <ExampleDestination>[
       'Track your Orders', Icon(Icons.location_on), Icon(Icons.location_on)),
   ExampleDestination('Order History', Icon(Icons.history), Icon(Icons.history)),
 ];
-
-class table extends StatelessWidget {
-  const table({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      width: 80,
-      height: 109,
-      child: Column(
-        children: [
-          Image.network(
-              'https://media.discordapp.net/attachments/673875945198714920/1154418629610328074/occupiedDoublesTable.png'),
-          const Text('A6',
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.w500,
-                color: Colors.white,
-              ))
-        ],
-      ),
-    );
-  }
-}

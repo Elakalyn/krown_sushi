@@ -26,3 +26,7 @@ final class MakeOrderErrorState extends AppState {}
 
 final class ApplyFilter extends AppState {}
 
+// Book table
+
+final class SelectTimeState extends AppState {}
+final class SelectTableState extends AppState {}
