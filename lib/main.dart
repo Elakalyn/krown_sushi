@@ -23,7 +23,6 @@ class MyApp extends StatelessWidget {
     return BlocProvider(
       create: (context) => AppCubit(),
       child: MaterialApp(
-        title: 'Flutter Demo',
         theme: ThemeData(
           fontFamily: 'Inter',
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),

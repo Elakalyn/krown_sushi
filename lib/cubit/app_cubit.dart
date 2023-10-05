@@ -1,4 +1,5 @@
-import 'package:bloc/bloc.dart';
+// ignore_for_file: body_might_complete_normally_catch_error, avoid_print, non_constant_identifier_names, prefer_typing_uninitialized_variables
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -9,7 +10,6 @@ import 'package:krown_sushi/Modules/Order_Finalization/orderFinalization.dart';
 import 'package:krown_sushi/Modules/Order_History/orderHistory.dart';
 import 'package:krown_sushi/Modules/Track_Orders/trackOrders.dart';
 import 'package:krown_sushi/Shared/Constants/constants.dart';
-import 'package:meta/meta.dart';
 import 'package:speed_up_flutter/speed_up_flutter.dart';
 
 import '../Modules/Table_Reservation/tableReservation.dart';
@@ -18,13 +18,62 @@ import '../Shared/Components/components.dart';
 part 'app_state.dart';
 
 class AppCubit extends Cubit<AppState> {
-  AppCubit() : super(AppInitial());
+  late bool A1availability;
+  late bool A2availability;
+  late bool A3availability;
+  late bool B1availability;
+  late bool B2availability;
+  late bool B3availability;
+  late bool C1availability;
+  late bool C2availability;
+  late bool C3availability;
+  late bool D1availability;
+  late bool D2availability;
+  late bool D3availability;
+  AppCubit() : super(AppInitial()) {
+    initializeAvailability();
+  }
 
   static AppCubit get(context) => BlocProvider.of(context);
   var screenIndex = 0;
   void handleScreenChanged(int selected) {
     screenIndex = selected;
     emit(ScreenChanged());
+  }
+
+  Future<void> initializeAvailability() async {
+    A1availability = await checkAvailability('A1');
+    A2availability = await checkAvailability('A2');
+    A3availability = await checkAvailability('A3');
+    B1availability = await checkAvailability('B1');
+    B2availability = await checkAvailability('B2');
+    B3availability = await checkAvailability('B3');
+    C1availability = await checkAvailability('C1');
+    C2availability = await checkAvailability('C2');
+    C3availability = await checkAvailability('C3');
+    D1availability = await checkAvailability('D1');
+    D2availability = await checkAvailability('D2');
+    D3availability = await checkAvailability('D3');
+    emit(TablesLoaded());
+  }
+
+  Future<bool> checkAvailability(String tableId) async {
+    final tableSnapshot = await FirebaseFirestore.instance
+        .collection('tables')
+        .doc(tableId)
+        .get();
+
+    if (tableSnapshot.exists) {
+      final status = tableSnapshot.data()!['status'];
+
+      if (status == 'occupied') {
+        return true;
+      } else {
+        return false;
+      }
+    } else {
+      return false;
+    }
   }
 
   List<Widget> Screens = [
@@ -168,7 +217,7 @@ class AppCubit extends Cubit<AppState> {
       emit(MakeOrderSuccessState());
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => OrderSuccess()),
+        MaterialPageRoute(builder: (context) => const OrderSuccess()),
       );
     }).catchError((e) {
       print(e.toString());
@@ -204,17 +253,17 @@ class AppCubit extends Cubit<AppState> {
     emit(SelectTableState());
   }
 
-  Future<bool> checkAvailability(time, table) async {
-    final CollectionReference reservations =
-        FirebaseFirestore.instance.collection('reservations');
+  Future<void> updateTableStatusToOccupied(String tableId) async {
+    final tableRef =
+        FirebaseFirestore.instance.collection('tables').doc(tableId);
 
-    final Query query = reservations
-        .where('table', isEqualTo: table)
-        .where('time', isEqualTo: time);
-
-    final QuerySnapshot snapshot = await query.get();
-    return snapshot.docs.isEmpty;
+    await tableRef.update({'status': 'occupied'});
   }
 
-  
+  void occupyTable() async {
+    var x = selectedTable;
+    await updateTableStatusToOccupied(x);
+    print('Table $x status updated to occupied.');
+    emit(ReserveTable());
+  }
 }

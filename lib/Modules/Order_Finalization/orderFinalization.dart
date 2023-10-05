@@ -1,13 +1,10 @@
+// ignore_for_file: must_be_immutable, invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hexcolor/hexcolor.dart';
-import 'package:krown_sushi/Modules/Host/host.dart';
-import 'package:krown_sushi/Modules/Track_Orders/trackOrders.dart';
-import 'package:krown_sushi/Shared/Components/components.dart';
 import 'package:speed_up_flutter/speed_up_flutter.dart';
-
 import '../../cubit/app_cubit.dart';
-import '../Menu/menu.dart';
 
 class PickDeliveryOption extends StatelessWidget {
   PickDeliveryOption({
@@ -16,7 +13,7 @@ class PickDeliveryOption extends StatelessWidget {
     required this.image,
     required this.desc,
     required this.price,
-     this.list,
+    this.list,
   });
 
   final name;
@@ -262,13 +259,14 @@ class OrderSummary extends StatelessWidget {
                                     SizedBox(
                                       height: 50,
                                       child: ListView.separated(
-                                        itemBuilder: (context, index) => Chip(label: Text(list[index])),
+                                        itemBuilder: (context, index) =>
+                                            Chip(label: Text(list[index])),
                                         shrinkWrap: true,
-                                        separatorBuilder: (context, index) => 5.w,
+                                        separatorBuilder: (context, index) =>
+                                            5.w,
                                         itemCount: list.length,
                                         scrollDirection: Axis.horizontal,
-                                       
-                                        ),
+                                      ),
                                     ),
                                     20.h,
                                   ],
@@ -476,8 +474,6 @@ class OrderSuccess extends StatelessWidget {
                     child: Text('Track Order'),
                     onPressed: () {
                       AppCubit.get(context).completeOrder(context, 3);
-                      Navigator.pop(context);
-                      Navigator.pop(context);
                     },
                   ),
                 ),

@@ -30,3 +30,5 @@ final class ApplyFilter extends AppState {}
 
 final class SelectTimeState extends AppState {}
 final class SelectTableState extends AppState {}
+final class TablesLoaded extends AppState {}
+final class ReserveTable extends AppState {}

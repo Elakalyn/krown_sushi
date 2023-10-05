@@ -1,4 +1,6 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+// ignore_for_file: must_be_immutable
+
+import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hexcolor/hexcolor.dart';
@@ -17,22 +19,15 @@ class TableReservation extends StatelessWidget {
     var occupiedDoubleTable = Image.asset('assets/occupiedDoublesTable.png');
     var occupiedFamilyTable = Image.asset('assets/occupiedFamilyTable.png');
 
-    var A1availability = AppCubit.get(context).checkAvailability('8 PM', 'A1');
-    var A2availability = AppCubit.get(context).checkAvailability('8 PM', 'A2');
-    var A3availability = AppCubit.get(context).checkAvailability('8 PM', 'A3');
-    var B1availability = AppCubit.get(context).checkAvailability('8 PM', 'B1');
-    var B2availability = AppCubit.get(context).checkAvailability('8 PM', 'B2');
-    var B3availability = AppCubit.get(context).checkAvailability('8 PM', 'B3');
-    var C1availability = AppCubit.get(context).checkAvailability('8 PM', 'C1');
-    var C2availability = AppCubit.get(context).checkAvailability('8 PM', 'C2');
-    var C3availability = AppCubit.get(context).checkAvailability('8 PM', 'C3');
-    var D1availability = AppCubit.get(context).checkAvailability('8 PM', 'D1');
-    var D2availability = AppCubit.get(context).checkAvailability('8 PM', 'D2');
-    var D3availability = AppCubit.get(context).checkAvailability('8 PM', 'D3');
-      // ALL OF THEM HAVE SUBTYPES OF FUTURE BOOLS, THEY CANNOT BE ACCESSED
+    // ALL OF THEM HAVE SUBTYPES OF FUTURE BOOLS, THEY CANNOT BE ACCESSED
     return BlocConsumer<AppCubit, AppState>(
-      listener: (context, state) {},
+      listener: (context, state) {
+        if (state is ReserveTable) {
+          AppCubit.get(context).initializeAvailability();
+        }
+      },
       builder: (context, state) {
+        AppCubit.get(context).initializeAvailability();
         return Scaffold(
           key: _key,
           drawer: AppCubit.get(context).navigator(),
@@ -77,245 +72,264 @@ class TableReservation extends StatelessWidget {
                   child: SingleChildScrollView(
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                      child: Column(
-                        children: [
-                          40.h,
-                          Row(
-                            children: [
-                              Text(
-                                "Date/Time",
-                                style: TextStyle(
-                                  fontSize: 25,
+                      child: ConditionalBuilder(
+                        condition: state is TablesLoaded,
+                        fallback: (context) =>
+                            Center(child: CircularProgressIndicator()),
+                        builder: (context) => Column(
+                          children: [
+                            40.h,
+                            Row(
+                              children: [
+                                Text(
+                                  "Date/Time",
+                                  style: TextStyle(
+                                    fontSize: 25,
+                                  ),
+                                ),
+                                Spacer(),
+                                ActionChip(
+                                  label: Text('17/9/2023 9:30 PM'),
+                                  onPressed: () {
+                                    AppCubit.get(context).timePicker(context);
+                                  },
+                                ),
+                              ],
+                            ),
+                            40.h,
+                            Container(
+                              width: 320,
+                              height: 160,
+                              decoration: BoxDecoration(
+                                  borderRadius: const BorderRadius.only(
+                                      topLeft: Radius.circular(15),
+                                      topRight: Radius.circular(15)),
+                                  color: HexColor('#EDEDED'),
+                                  boxShadow: const [
+                                    BoxShadow(
+                                      color: Color.fromARGB(34, 83, 83, 83),
+                                      blurRadius: 20,
+                                      offset: Offset(0, 4),
+                                      spreadRadius: 8,
+                                    )
+                                  ]),
+                              child: Padding(
+                                padding: const EdgeInsets.all(3.0),
+                                child: Row(
+                                  children: [
+                                    5.w,
+                                    table(
+                                      group: 'A',
+                                      number: '1',
+                                      status:
+                                          AppCubit.get(context).A1availability,
+                                      imageFree: freeDoubleTable,
+                                      imageOccupied: occupiedDoubleTable,
+                                    ),
+                                    const Spacer(),
+                                    table(
+                                      group: 'A',
+                                      number: '2',
+                                      status:
+                                          AppCubit.get(context).A2availability,
+                                      imageFree: freeDoubleTable,
+                                      imageOccupied: occupiedDoubleTable,
+                                    ),
+                                    const Spacer(),
+                                    table(
+                                      group: 'A',
+                                      number: '3',
+                                      status:
+                                          AppCubit.get(context).A3availability,
+                                      imageFree: freeDoubleTable,
+                                      imageOccupied: occupiedDoubleTable,
+                                    ),
+                                    5.w,
+                                  ],
                                 ),
                               ),
-                              Spacer(),
-                              ActionChip(
-                                label: Text('17/9/2023 9:30 PM'),
-                                onPressed: () {
-                                  AppCubit.get(context).timePicker(context);
-                                },
-                              ),
-                            ],
-                          ),
-                          40.h,
-                          Container(
-                            width: 320,
-                            height: 160,
-                            decoration: BoxDecoration(
-                                borderRadius: const BorderRadius.only(
-                                    topLeft: Radius.circular(15),
-                                    topRight: Radius.circular(15)),
-                                color: HexColor('#EDEDED'),
-                                boxShadow: const [
-                                  BoxShadow(
-                                    color: Color.fromARGB(34, 83, 83, 83),
-                                    blurRadius: 20,
-                                    offset: Offset(0, 4),
-                                    spreadRadius: 8,
-                                  )
-                                ]),
-                            child: Padding(
-                              padding: const EdgeInsets.all(3.0),
-                              child: Row(
-                                children: [
-                                  5.w,
-                                  table(
-                                    group: 'A',
-                                    number: '1',
-                                    status: A1availability,
-                                    imageFree: freeDoubleTable,
-                                    imageOccupied: occupiedDoubleTable,
-                                  ),
-                                  const Spacer(),
-                                  table(
-                                    group: 'A',
-                                    number: '2',
-                                    status: A2availability,
-                                    imageFree: freeDoubleTable,
-                                    imageOccupied: occupiedDoubleTable,
-                                  ),
-                                  const Spacer(),
-                                  table(
-                                    group: 'A',
-                                    number: '3',
-                                    status: A3availability,
-                                    imageFree: freeDoubleTable,
-                                    imageOccupied: occupiedDoubleTable,
-                                  ),
-                                  5.w,
-                                ],
+                            ),
+                            10.h,
+                            Container(
+                              width: 320,
+                              height: 160,
+                              decoration: BoxDecoration(
+                                  borderRadius: const BorderRadius.only(
+                                      bottomLeft: Radius.circular(15),
+                                      bottomRight: Radius.circular(15)),
+                                  color: HexColor('#EDEDED'),
+                                  boxShadow: const [
+                                    BoxShadow(
+                                      color: Color.fromARGB(34, 83, 83, 83),
+                                      blurRadius: 20,
+                                      offset: Offset(0, 4),
+                                      spreadRadius: 8,
+                                    )
+                                  ]),
+                              child: Padding(
+                                padding: const EdgeInsets.all(3.0),
+                                child: Row(
+                                  children: [
+                                    5.w,
+                                    table(
+                                      group: 'B',
+                                      number: '1',
+                                      status:
+                                          AppCubit.get(context).B1availability,
+                                      imageFree: freeFamilyTable,
+                                      imageOccupied: occupiedFamilyTable,
+                                    ),
+                                    const Spacer(),
+                                    table(
+                                      group: 'B',
+                                      number: '2',
+                                      status:
+                                          AppCubit.get(context).B2availability,
+                                      imageFree: freeFamilyTable,
+                                      imageOccupied: occupiedFamilyTable,
+                                    ),
+                                    const Spacer(),
+                                    table(
+                                      group: 'B',
+                                      number: '3',
+                                      status:
+                                          AppCubit.get(context).B3availability,
+                                      imageFree: freeFamilyTable,
+                                      imageOccupied: occupiedFamilyTable,
+                                    ),
+                                    5.w,
+                                  ],
+                                ),
                               ),
                             ),
-                          ),
-                          10.h,
-                          Container(
-                            width: 320,
-                            height: 160,
-                            decoration: BoxDecoration(
-                                borderRadius: const BorderRadius.only(
-                                    bottomLeft: Radius.circular(15),
-                                    bottomRight: Radius.circular(15)),
-                                color: HexColor('#EDEDED'),
-                                boxShadow: const [
-                                  BoxShadow(
-                                    color: Color.fromARGB(34, 83, 83, 83),
-                                    blurRadius: 20,
-                                    offset: Offset(0, 4),
-                                    spreadRadius: 8,
-                                  )
-                                ]),
-                            child: Padding(
-                              padding: const EdgeInsets.all(3.0),
-                              child: Row(
-                                children: [
-                                  5.w,
-                                  table(
-                                    group: 'B',
-                                    number: '1',
-                                    status: B1availability,
-                                    imageFree: freeFamilyTable,
-                                    imageOccupied: occupiedFamilyTable,
-                                  ),
-                                  const Spacer(),
-                                  table(
-                                    group: 'B',
-                                    number: '2',
-                                    status: B2availability,
-                                    imageFree: freeFamilyTable,
-                                    imageOccupied: occupiedFamilyTable,
-                                  ),
-                                  const Spacer(),
-                                  table(
-                                    group: 'B',
-                                    number: '3',
-                                    status: B3availability,
-                                    imageFree: freeFamilyTable,
-                                    imageOccupied: occupiedFamilyTable,
-                                  ),
-                                  5.w,
-                                ],
+                            10.h,
+                            Container(
+                              width: 320,
+                              height: 160,
+                              decoration: BoxDecoration(
+                                  borderRadius: const BorderRadius.only(
+                                      topLeft: Radius.circular(15),
+                                      topRight: Radius.circular(15)),
+                                  color: HexColor('#EDEDED'),
+                                  boxShadow: const [
+                                    BoxShadow(
+                                      color: Color.fromARGB(34, 83, 83, 83),
+                                      blurRadius: 20,
+                                      offset: Offset(0, 4),
+                                      spreadRadius: 8,
+                                    )
+                                  ]),
+                              child: Padding(
+                                padding: const EdgeInsets.all(3.0),
+                                child: Row(
+                                  children: [
+                                    5.w,
+                                    table(
+                                      group: 'C',
+                                      number: '1',
+                                      status:
+                                          AppCubit.get(context).C1availability,
+                                      imageFree: freeDoubleTable,
+                                      imageOccupied: occupiedDoubleTable,
+                                    ),
+                                    const Spacer(),
+                                    table(
+                                      group: 'C',
+                                      number: '2',
+                                      status:
+                                          AppCubit.get(context).C2availability,
+                                      imageFree: freeDoubleTable,
+                                      imageOccupied: occupiedDoubleTable,
+                                    ),
+                                    const Spacer(),
+                                    table(
+                                      group: 'C',
+                                      number: '3',
+                                      status:
+                                          AppCubit.get(context).C3availability,
+                                      imageFree: freeDoubleTable,
+                                      imageOccupied: occupiedDoubleTable,
+                                    ),
+                                    5.w,
+                                  ],
+                                ),
                               ),
                             ),
-                          ),
-                          10.h,
-                          Container(
-                            width: 320,
-                            height: 160,
-                            decoration: BoxDecoration(
-                                borderRadius: const BorderRadius.only(
-                                    topLeft: Radius.circular(15),
-                                    topRight: Radius.circular(15)),
-                                color: HexColor('#EDEDED'),
-                                boxShadow: const [
-                                  BoxShadow(
-                                    color: Color.fromARGB(34, 83, 83, 83),
-                                    blurRadius: 20,
-                                    offset: Offset(0, 4),
-                                    spreadRadius: 8,
-                                  )
-                                ]),
-                            child: Padding(
-                              padding: const EdgeInsets.all(3.0),
-                              child: Row(
-                                children: [
-                                  5.w,
-                                  table(
-                                    group: 'C',
-                                    number: '1',
-                                    status: C1availability,
-                                    imageFree: freeDoubleTable,
-                                    imageOccupied: occupiedDoubleTable,
-                                  ),
-                                  const Spacer(),
-                                  table(
-                                    group: 'C',
-                                    number: '2',
-                                    status: C2availability,
-                                    imageFree: freeDoubleTable,
-                                    imageOccupied: occupiedDoubleTable,
-                                  ),
-                                  const Spacer(),
-                                  table(
-                                    group: 'C',
-                                    number: '3',
-                                    status: C3availability,
-                                    imageFree: freeDoubleTable,
-                                    imageOccupied: occupiedDoubleTable,
-                                  ),
-                                  5.w,
-                                ],
+                            10.h,
+                            Container(
+                              width: 320,
+                              height: 160,
+                              decoration: BoxDecoration(
+                                  borderRadius: const BorderRadius.only(
+                                      bottomLeft: Radius.circular(15),
+                                      bottomRight: Radius.circular(15)),
+                                  color: HexColor("#EDEDED"),
+                                  boxShadow: const [
+                                    BoxShadow(
+                                      color: Color.fromARGB(34, 83, 83, 83),
+                                      blurRadius: 20,
+                                      offset: Offset(0, 4),
+                                      spreadRadius: 8,
+                                    )
+                                  ]),
+                              child: Padding(
+                                padding: const EdgeInsets.all(3.0),
+                                child: Row(
+                                  children: [
+                                    5.w,
+                                    table(
+                                      group: 'D',
+                                      number: '1',
+                                      status:
+                                          AppCubit.get(context).D1availability,
+                                      imageFree: freeDoubleTable,
+                                      imageOccupied: occupiedDoubleTable,
+                                    ),
+                                    const Spacer(),
+                                    table(
+                                      group: 'D',
+                                      number: '2',
+                                      status:
+                                          AppCubit.get(context).D2availability,
+                                      imageFree: freeDoubleTable,
+                                      imageOccupied: occupiedDoubleTable,
+                                    ),
+                                    const Spacer(),
+                                    table(
+                                      group: 'D',
+                                      number: '3',
+                                      status:
+                                          AppCubit.get(context).D3availability,
+                                      imageFree: freeDoubleTable,
+                                      imageOccupied: occupiedDoubleTable,
+                                    ),
+                                    5.w,
+                                  ],
+                                ),
                               ),
                             ),
-                          ),
-                          10.h,
-                          Container(
-                            width: 320,
-                            height: 160,
-                            decoration: BoxDecoration(
-                                borderRadius: const BorderRadius.only(
-                                    bottomLeft: Radius.circular(15),
-                                    bottomRight: Radius.circular(15)),
-                                color: HexColor("#EDEDED"),
-                                boxShadow: const [
-                                  BoxShadow(
-                                    color: Color.fromARGB(34, 83, 83, 83),
-                                    blurRadius: 20,
-                                    offset: Offset(0, 4),
-                                    spreadRadius: 8,
-                                  )
-                                ]),
-                            child: Padding(
-                              padding: const EdgeInsets.all(3.0),
-                              child: Row(
-                                children: [
-                                  5.w,
-                                  table(
-                                    group: 'D',
-                                    number: '1',
-                                    status: D1availability,
-                                    imageFree: freeDoubleTable,
-                                    imageOccupied: occupiedDoubleTable,
-                                  ),
-                                  const Spacer(),
-                                  table(
-                                    group: 'D',
-                                    number: '2',
-                                    status: D2availability,
-                                    imageFree: freeDoubleTable,
-                                    imageOccupied: occupiedDoubleTable,
-                                  ),
-                                  const Spacer(),
-                                  table(
-                                    group: 'D',
-                                    number: '3',
-                                    status: D3availability,
-                                    imageFree: freeDoubleTable,
-                                    imageOccupied: occupiedDoubleTable,
-                                  ),
-                                  5.w,
-                                ],
+                            40.h,
+                            if (AppCubit.get(context).selectedTable == null)
+                              const SizedBox(
+                                width: double.maxFinite,
+                                child: FilledButton(
+                                  child: Text('No table selected.'),
+                                  onPressed: null,
+                                ),
                               ),
-                            ),
-                          ),
-                          40.h,
-                          if (AppCubit.get(context).selectedTable == null)
-                            const SizedBox(
-                              width: double.maxFinite,
-                              child: FilledButton(
-                                child: Text('No table selected.'),
-                                onPressed: null,
+                            if (AppCubit.get(context).selectedTable != null)
+                              SizedBox(
+                                width: double.maxFinite,
+                                child: FilledButton(
+                                  child: Text('Reserve table'),
+                                  onPressed: () {
+                                    AppCubit.get(context).occupyTable();
+                                  },
+                                ),
                               ),
-                            ),
-                          if (AppCubit.get(context).selectedTable != null)
-                            SizedBox(
-                              width: double.maxFinite,
-                              child: FilledButton(
-                                child: Text('Reserve table'),
-                                onPressed: () {},
-                              ),
-                            ),
-                          40.h,
-                        ],
+                            40.h,
+                          ],
+                        ),
                       ),
                     ),
                   ),
@@ -370,20 +384,20 @@ class table extends StatelessWidget {
                 backgroundColor: color ??= HexColor("#EDEDED"),
                 child: Column(
                   children: [
-                    if (status == false) imageFree,
-                    if (status == true) imageOccupied,
                     Text('${group}${number}',
                         style: const TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.w500,
                           color: Colors.black,
                         )),
-                    Text('Your table',
-                        style: const TextStyle(
-                          fontSize: 15,
-                          fontWeight: FontWeight.w300,
-                          color: Colors.deepPurple,
-                        )),
+                    if (status == false) imageFree,
+                    if (status == true) imageOccupied,
+                    // Text('Your table',
+                    //     style: const TextStyle(
+                    //       fontSize: 15,
+                    //       fontWeight: FontWeight.w300,
+                    //       color: Colors.deepPurple,
+                    //     )),
                   ],
                 ),
               ),
