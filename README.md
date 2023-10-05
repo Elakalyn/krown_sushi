@@ -77,3 +77,4 @@ flutter run
 - flutter_bloc: ^8.1.3
 - cloud_firestore: ^4.9.2
 - intl: ^0.18.1
+- conditional_builder_null_safety: ^0.0.6
