@@ -10,6 +10,8 @@ import 'package:krown_sushi/Shared/Components/components.dart';
 import 'package:krown_sushi/cubit/app_cubit.dart';
 import 'package:speed_up_flutter/speed_up_flutter.dart';
 
+import '../../Shared/Constants/constants.dart';
+
 class HomeScreen extends StatelessWidget {
   HomeScreen({super.key});
   final GlobalKey<ScaffoldState> _key = GlobalKey();
@@ -21,6 +23,12 @@ class HomeScreen extends StatelessWidget {
         CollectionReference dishesCollection =
             FirebaseFirestore.instance.collection('dishes');
         dynamic dishesRef = dishesCollection;
+        // current order
+                CollectionReference ordersCollection = FirebaseFirestore.instance
+            .collection('users')
+            .doc(userID)
+            .collection('orders');
+        dynamic ordersRef = ordersCollection;
         return Scaffold(
           key: _key,
           drawer: AppCubit.get(context).navigator(),
@@ -80,7 +88,70 @@ class HomeScreen extends StatelessWidget {
                             ),
                           ),
                           20.h,
-                        //  dishProgressCard(),
+                          StreamBuilder<QuerySnapshot>(
+                            stream: ordersRef.snapshots(),
+                            builder:
+                                (BuildContext context, AsyncSnapshot snapshot) {
+                              if (snapshot.hasError) {
+                                return Text('Error: ${snapshot.error}');
+                              }
+
+                              if (snapshot.connectionState ==
+                                  ConnectionState.waiting) {
+                                return const CircularProgressIndicator();
+                              }
+
+                              final QuerySnapshot? querySnapshot =
+                                  snapshot.data;
+
+                              if (querySnapshot == null) {
+                                print('DATA DOES NOT EXIST.');
+                                return Text(
+                                  'No data available',
+                                );
+                              }
+                              return SizedBox(
+                                height: 243,
+                                width: 360,
+                                child: ListView.separated(
+                                  scrollDirection: Axis.horizontal,
+                                  shrinkWrap: true,
+                                  itemBuilder: (context, index) {
+                                    final DocumentSnapshot<Object?> document =
+                                        querySnapshot.docs[index];
+                                    late double progress;
+                                    switch (document['fulfillment']) {
+                                      case 'Processing':
+                                        progress = 50;
+                                        break;
+                                      case 'Preparing':
+                                        progress = 100;
+                                        break;
+                                      case 'Cooking':
+                                        progress = 150;
+                                        break;
+                                      case 'Packaging':
+                                        progress = 230;
+                                        break;
+                                      case 'Delivered':
+                                        progress = 300;
+                                        break;
+                                    }
+                              
+                                    return dishProgressCard(
+                                      name: document['name'],
+                                      image: document['image'],
+                                      status: document['fulfillment'],
+                                      progress: progress,
+                                    );
+                                  },
+                                  separatorBuilder: (context, index) => 20.h,
+                                  itemCount: querySnapshot.docs.length,
+                                  physics: NeverScrollableScrollPhysics(),
+                                ),
+                              );
+                            },
+                          ),
                           40.h,
                           const Align(
                             alignment: Alignment.centerLeft,
